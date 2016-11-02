@@ -329,25 +329,27 @@ level SDP attribute.  If it is a session-level attribute, it applies
 to all TLS sessions for which no media-level fingerprint attribute is
 defined.
 
- Multiple SDP fingerprint attributes can be associated with an m-
- line. This can occur if multiple fingerprints have been calculated
- for a certificate using different hash functions. It can also occur
- if one or more fingerprints associated with multiple certificates
- have been calculated. This might be needed if multiple certificates
- will be used for media associated with an m- line (e.g. if separate
- certificates are used for RTP and RTCP), or where it is not known
- which certificate will be used when the fingerprints are
- exchanged. In such cases, one or more fingerprints MUST be calculated
- for each possible certificate. An endpoint MUST, as a minimum,
- calculate a fingerprint using both the 'SHA-256' hash function
- algorithm and the hash function used to generate the signature on the
- certificate for each possible certificate.  Including the hash from
- the signature algorithm ensures interoperability with strict
- implementations of RFC 4572 [@RFC4572].  Either of these fingerprints
- MAY be omitted if the endpoint includes a hash with a stronger hash
- algorithm that it knows that the peer supports, if it is known that
- the peer does not support the hash algorithm, or if local policy
- mandates use of stronger algorithms.
+## Multiple Fingerprints
+
+Multiple SDP fingerprint attributes can be associated with an m-
+line. This can occur if multiple fingerprints have been calculated for
+a certificate using different hash functions. It can also occur if one
+or more fingerprints associated with multiple certificates have been
+calculated. This might be needed if multiple certificates will be used
+for media associated with an m- line (e.g. if separate certificates
+are used for RTP and RTCP), or where it is not known which certificate
+will be used when the fingerprints are exchanged. In such cases, one
+or more fingerprints MUST be calculated for each possible certificate.
+
+An endpoint MUST, as a minimum, calculate a fingerprint using both the
+'SHA-256' hash function algorithm and the hash function used to
+generate the signature on the certificate for each possible
+certificate.  Including the hash from the signature algorithm ensures
+interoperability with strict implementations of RFC 4572 [@RFC4572].
+Either of these fingerprints MAY be omitted if the endpoint includes a
+hash with a stronger hash algorithm that it knows that the peer
+supports, if it is known that the peer does not support the hash
+algorithm, or if local policy mandates use of stronger algorithms.
 
 If fingerprints associated with multiple certificates are calculated,
 the same set of hash functions MUST be used to calculate fingerprints
@@ -552,7 +554,7 @@ deployment of newer, and more secure, cipher suites.
 
 #  IANA Considerations
 
-Note to IANA. No IANA considerations are changes from RFC4572
+Note to IANA. No IANA considerations are changed from RFC4572
 [@RFC4572] so the only actions required are to update the registreis
 to point at this specification.
 
