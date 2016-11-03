@@ -3,8 +3,9 @@
     abbrev = "Comedia over TLS in SDP"
     category = "std"
     docName = "draft-jennings-4572bis-00"
-    ipr= "trust200902"
+    ipr = "trust200902"
     area = "ART"
+    obsoletes = [ 4572 ]
 
     [pi]
     symrefs = "no"
@@ -18,6 +19,14 @@
     organization = "Vidyo"
       [author.address]
       email = "jonathan@vidyo.com"
+
+   [[author]]
+    initials = "C."
+    surname = "Holmberg"
+    fullname = " Christer Holmberg"
+    organization = "Ericsson"
+      [author.address]
+      email = "christer.holmberg@ericsson.com"
 
 %%%
 
@@ -33,7 +42,6 @@ mechanism allows media transport over TLS connections to be
 established securely, so long as the integrity of session descriptions
 is assured.
 
-This document extends and updates RFC 4145.
 
 {mainmatter}
 
@@ -90,6 +98,18 @@ assuming that the integrity of SDP content is assured, allows the
 secure use of self-signed certificates.  Section 6 describes which
 X.509 certificates are presented, and how they are used in TLS.
 Section 7 discusses additional security considerations.
+
+This document obsoletes [@RFC4572] but remains backwards compatible
+with older implementations.  The changes from [@RFC4572] are that it
+clarified that multiple 'fingerprint' attributes can be used to carry
+fingerprints, calculated using different hash functions, associated
+with a given certificate, and to carry fingerprints associated with
+multiple certificates.  The fingerprint matching procedure, when
+multiple fingerprints are provided, are also clarified.  The document
+also updates the preferred cipher suite with a stronger cipher suite,
+and removes the requirement to use the same hash function for
+calculating a certificate fingerprint and certificate signature.
+   
 
 #  Terminology
 
@@ -292,31 +312,62 @@ UHEX                   =  DIGIT / %x41-46 ; A-F uppercase
 ```
 Figure 2: Augmented Backus-Naur Syntax for the Fingerprint Attribute
 
-A certificate fingerprint MUST be computed using the same one-way hash
-function as is used in the certificate's signature algorithm.  (This
-ensures that the security properties required for the certificate also
-apply for the fingerprint.  It also guarantees that the fingerprint
-will be usable by the other endpoint, so long as the certificate
-itself is.)
 Following RFC 3279 [@!RFC3279] as updated by RFC 4055 [@!RFC4055],
 therefore, the defined hash functions are 'SHA-1' [@!FIPS.180-2.2002]
 [@RFC3174], 'SHA-224' [@!FIPS.180-2.2002], 'SHA-256'
-[@!FIPS.180-2.2002], 'SHA-384' [@!FIPS.180-2.2002], 'SHA-512'
+[@!FIPS.180-2.2002], 'SHA-384'[@!FIPS.180-2.2002], 'SHA-512'
 [@!FIPS.180-2.2002], 'MD5' [@!RFC1321], and 'MD2' [@!RFC1319],
-with 'SHA-1' preferred.
+with 'SHA-256' preferred.
 A new IANA registry of Hash Function Textual Names, specified in
 Section 8, allows for addition of future tokens, but they may only be
 added if they are included in RFCs that update or obsolete RFC 3279
 [@!RFC3279].
-Self-signed certificates (for which legacy certificates are not a
-consideration) MUST use one of the FIPS 180 algorithms (SHA-1,
-SHA-224, SHA-256, SHA-384, or SHA-512) as their signature algorithm,
-and thus also MUST use it to calculate certificate fingerprints.
 
 The fingerprint attribute may be either a session-level or a media-
 level SDP attribute.  If it is a session-level attribute, it applies
 to all TLS sessions for which no media-level fingerprint attribute is
 defined.
+
+## Multiple Fingerprints
+
+Multiple SDP fingerprint attributes can be associated with an m-
+line. This can occur if multiple fingerprints have been calculated for
+a certificate using different hash functions. It can also occur if one
+or more fingerprints associated with multiple certificates have been
+calculated. This might be needed if multiple certificates will be used
+for media associated with an m- line (e.g. if separate certificates
+are used for RTP and RTCP), or where it is not known which certificate
+will be used when the fingerprints are exchanged. In such cases, one
+or more fingerprints MUST be calculated for each possible certificate.
+
+An endpoint MUST, as a minimum, calculate a fingerprint using both the
+'SHA-256' hash function algorithm and the hash function used to
+generate the signature on the certificate for each possible
+certificate.  Including the hash from the signature algorithm ensures
+interoperability with strict implementations of RFC 4572 [@RFC4572].
+Either of these fingerprints MAY be omitted if the endpoint includes a
+hash with a stronger hash algorithm that it knows that the peer
+supports, if it is known that the peer does not support the hash
+algorithm, or if local policy mandates use of stronger algorithms.
+
+If fingerprints associated with multiple certificates are calculated,
+the same set of hash functions MUST be used to calculate fingerprints
+for each certificate associated with the m- line.
+
+For each used certificate, an endpoint MUST be able to match at least
+one fingerprint, calculated using the hash function that the endpoint
+supports and considers most secure, with the used certificate. If the
+checked fingerprint does not match the used certificate, the endpoint
+MUST NOT establish the TLS connection. In addition, the endpoint MAY
+also check fingerprints calculated using other hash functions that it
+has received for a match. For each hash function checked, one of the
+received fingerprints calculated using the hash function MUST match
+the used certificate.
+
+NOTE: The SDP fingerprint attribute does not contain a reference to a
+specific certificate. Endpoints need to compare the fingerprint with a
+certificate hash in order to look for a match.
+
 
 #  Endpoint Identification
 
@@ -494,7 +545,17 @@ TLS is not always the most appropriate choice for secure connection-
 oriented media; in some cases, a higher- or lower-level security
 protocol may be appropriate.
 
+This document improves security from the RFC 4572 [@RFC4572].  It
+updates the preferred hash function cipher suite from SHA-1 to
+SHA-256.  By clarifying the usage and handling of multiple
+fingerprints, the document also enables hash agility, and incremental
+deployment of newer, and more secure, cipher suites.
+
 #  IANA Considerations
+
+Note to IANA. No IANA considerations are changed from RFC4572
+[@RFC4572] so the only actions required are to update the registreis
+to point at this specification.
 
 This document defines an SDP proto value: 'TCP/TLS'.  Its format is
 defined in Section 4.  This proto value has been registered by IANA
