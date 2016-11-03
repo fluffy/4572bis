@@ -4,7 +4,7 @@ xml2rfc ?= xml2rfc
 #  mmark (https://github.com/miekg/mmark)
 mmark ?= mmark -xml2 -page
 ifneq (,$(XML_LIBRARY))
-	mmark += -bib-id $(XML_LIBRARY) -bib-rfc $(XML_LIBRARY)
+	mmark += -bib-id $(XML_LIBRARY)/ -bib-rfc $(XML_LIBRARY)/
 endif
 
 

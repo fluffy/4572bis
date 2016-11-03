@@ -30,7 +30,7 @@
 
 %%%
 
-.# Abstract {#abstract}
+.# Abstract
 
 This document specifies how to establish secure connection-oriented
 media transport sessions over the Transport Layer Security (TLS)
@@ -210,7 +210,7 @@ mechanism is described in Section 5.
 
 ##  Example SDP Description for TLS Connection
 
-(#example) illustrates an SDP offer that signals the availability of a
+Figure 1 illustrates an SDP offer that signals the availability of a
 T.38 fax session over TLS.  For the purpose of brevity, the main
 portion of the session description is omitted in the example, showing
 only the 'm' line and its attributes.  (This example is the same as
@@ -232,7 +232,7 @@ a=connection:new
 a=fingerprint:SHA-1 \
        4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF:3E:5D:49:6B:19:E5:7C:AB
 ```
-Figure: Example SDP Description Offering a TLS Media Stream {#example}
+Figure 1: Example SDP Description Offering a TLS Media Stream 
 
 #  Protocol Identifiers
 
@@ -290,7 +290,7 @@ hexadecimal bytes.  It was felt that consistency with other
 applications of fingerprints was more important.)
 
 The formal syntax of the fingerprint attribute is given in Augmented
-Backus-Naur Form [@!RFC4234] in (#abnf).  This syntax extends the BNF
+Backus-Naur Form [@!RFC4234] in Figure 2.  This syntax extends the BNF
 syntax of SDP [@!RFC4566].
 
 ```
@@ -310,7 +310,7 @@ fingerprint            =  2UHEX *(":" 2UHEX)
 
 UHEX                   =  DIGIT / %x41-46 ; A-F uppercase
 ```
-Figure: Augmented Backus-Naur Syntax for the Fingerprint Attribute {#abnf}
+Figure 2: Augmented Backus-Naur Syntax for the Fingerprint Attribute 
 
 Following RFC 3279 [@!RFC3279] as updated by RFC 4055 [@!RFC4055],
 therefore, the defined hash functions are 'SHA-1' [@!FIPS.180-2.2002]
