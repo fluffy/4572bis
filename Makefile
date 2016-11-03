@@ -8,8 +8,8 @@ ifneq (,$(XML_LIBRARY))
 endif
 
 
-DRAFT = draft-jennings-4572bis
-VERSION = 00
+DRAFT = draft-ietf-mmusic-4572-update
+VERSION = 08
 
 .PHONY: all clean diff
 .PRECIOUS: %.xml

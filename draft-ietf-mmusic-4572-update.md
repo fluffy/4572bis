@@ -2,7 +2,7 @@
     title = "Connection-Oriented Media Transport over TLS in SDP"
     abbrev = "Comedia over TLS in SDP"
     category = "std"
-    docName = "draft-jennings-4572bis-00"
+    docName = "draft-ietf-mmusic-4572-update-08"
     ipr = "trust200902"
     area = "ART"
     obsoletes = [ 4572 ]
