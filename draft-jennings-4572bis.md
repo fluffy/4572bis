@@ -8,7 +8,7 @@
     obsoletes = [ 4572 ]
 
     [pi]
-    symrefs = "no"
+    symrefs = "yes"
     sortrefs = "yes"
     toc = "yes"
 
