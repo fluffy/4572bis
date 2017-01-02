@@ -2,7 +2,7 @@
     title = "Connection-Oriented Media Transport over TLS in SDP"
     abbrev = "Comedia over TLS in SDP"
     category = "std"
-    docName = "draft-ietf-mmusic-4572-update-08"
+    docName = "draft-ietf-mmusic-4572-update-09"
     ipr = "trust200902"
     area = "ART"
     obsoletes = [ 4572 ]
@@ -42,6 +42,8 @@ mechanism allows media transport over TLS connections to be
 established securely, so long as the integrity of session descriptions
 is assured.
 
+This document obsoletes RFC 4572, by clarifying the usage of multiple
+fingerprints.
 
 {mainmatter}
 
@@ -60,7 +62,7 @@ provide confidentiality, data integrity, and authentication for their
 media sessions.  This document therefore extends the
 Connection-Oriented Media specification to allow session descriptions
 to describe media sessions that use the Transport Layer Security (TLS)
-protocol [@!RFC4346].
+protocol [@!RFC5246].
 
 TLS protocol allows applications to communicate over a channel t
 provides confidentiality and data integrity.  The TLS specification,
@@ -109,15 +111,14 @@ multiple fingerprints are provided, are also clarified.  The document
 also updates the preferred cipher suite with a stronger cipher suite,
 and removes the requirement to use the same hash function for
 calculating a certificate fingerprint and certificate signature.
-   
+
 
 #  Terminology
 
-In this document, the key words "MUST", "MUST NOT", "REQUIRED",
-"SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
-and "OPTIONAL" are to be interpreted as described in RFC 2119
-[@!RFC2119] and indicate requirement levels for compliant
-implementations.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in RFC 2119 [@!RFC2119].
+
 
 #  Overview
 
@@ -186,7 +187,7 @@ redirect session descriptions: for example, a compromised or malicious
 SIP proxy server.  Neither TLS itself nor any mechanisms that use it
 can protect an SDP session against such an attacker.  Instead, the SDP
 description itself must be secured through some mechanism; SIP, for
-example, defines how S/MIME [@RFC3851] can be used to secure session
+example, defines how S/MIME [@RFC5751] can be used to secure session
 descriptions.
 
 ##  The Need for Self-Signed Certificates
@@ -232,7 +233,7 @@ a=connection:new
 a=fingerprint:SHA-1 \
        4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF:3E:5D:49:6B:19:E5:7C:AB
 ```
-Figure 1: Example SDP Description Offering a TLS Media Stream 
+Figure 1: Example SDP Description Offering a TLS Media Stream
 
 #  Protocol Identifiers
 
@@ -243,7 +244,7 @@ protocol identifiers.
 
 This specification defines a new protocol identifier, 'TCP/TLS', which
 indicates that the media described will use the Transport Layer
-Security protocol [@!RFC4346] over TCP.  (Using TLS over other
+Security protocol [@!RFC5246] over TCP.  (Using TLS over other
 transport protocols is not discussed in this document.)  The 'TCP/TLS'
 protocol identifier describes only the transport protocol, not the
 upper-layer protocol.  An 'm' line that specifies 'TCP/TLS' MUST
@@ -259,7 +260,7 @@ defined in that specification, 'setup' and 'connection'.
 Parties to a TLS session indicate their identities by presenting
 authentication certificates as part of the TLS handshake procedure.
 Authentication certificates are X.509 [@!ITU.X509.2000] certificates,
-as profiled by RFC 3279 [@!RFC3279], RFC 3280 [@!RFC3280], and RFC
+as profiled by RFC 3279 [@!RFC3279], RFC 5280 [@!RFC5280], and RFC
 4055 [@!RFC4055].
 
 In order to associate media streams with connections and to prevent
@@ -285,12 +286,12 @@ uppercase hexadecimal bytes, separated by colons.  The number of bytes
 is defined by the hash function.  (This is the syntax used by openssl
 and by the browsers' certificate managers.  It is different from the
 syntax used to represent hash values in, e.g., HTTP digest
-authentication [@RFC2617], which uses unseparated lowercase
+authentication [@RFC7616], which uses unseparated lowercase
 hexadecimal bytes.  It was felt that consistency with other
 applications of fingerprints was more important.)
 
 The formal syntax of the fingerprint attribute is given in Augmented
-Backus-Naur Form [@!RFC4234] in Figure 2.  This syntax extends the BNF
+Backus-Naur Form [@!RFC5234] in Figure 2.  This syntax extends the BNF
 syntax of SDP [@!RFC4566].
 
 ```
@@ -300,7 +301,7 @@ fingerprint-attribute  =  "fingerprint" ":" hash-func SP fingerprint
 
 hash-func              =  "sha-1" / "sha-224" / "sha-256" /
                           "sha-384" / "sha-512" /
-                          "md5" / "md2" / token
+                          "md5" / token
                           ; Additional hash functions can only come
                           ; from updates to RFC 3279
 
@@ -310,14 +311,13 @@ fingerprint            =  2UHEX *(":" 2UHEX)
 
 UHEX                   =  DIGIT / %x41-46 ; A-F uppercase
 ```
-Figure 2: Augmented Backus-Naur Syntax for the Fingerprint Attribute 
+Figure 2: Augmented Backus-Naur Syntax for the Fingerprint Attribute
 
 Following RFC 3279 [@!RFC3279] as updated by RFC 4055 [@!RFC4055],
 therefore, the defined hash functions are 'SHA-1' [@!FIPS.180-2.2002]
 [@RFC3174], 'SHA-224' [@!FIPS.180-2.2002], 'SHA-256'
 [@!FIPS.180-2.2002], 'SHA-384'[@!FIPS.180-2.2002], 'SHA-512'
-[@!FIPS.180-2.2002], 'MD5' [@!RFC1321], and 'MD2' [@!RFC1319],
-with 'SHA-256' preferred.
+[@!FIPS.180-2.2002], 'MD5' [@RFC1321], with 'SHA-256' preferred.
 A new IANA registry of Hash Function Textual Names, specified in
 Section 8, allows for addition of future tokens, but they may only be
 added if they are included in RFCs that update or obsolete RFC 3279
@@ -377,7 +377,7 @@ An X.509 certificate binds an identity and a public key.  If SDP
 describing a TLS session is transmitted over a mechanism that provides
 integrity protection, a certificate asserting any syntactically valid
 identity MAY be used.  For example, an SDP description sent over
-HTTP/TLS [@RFC2818] or secured by S/MIME [@RFC3851] MAY assert any
+HTTP/TLS [@RFC2818] or secured by S/MIME [@RFC5751] MAY assert any
 identity in the certificate securing the media connection.
 
 Security protocols that provide only hop-by-hop integrity protection
@@ -412,7 +412,7 @@ follows:
   (For more details on the validity of URIs, see Section 7.)
 
 Identity matching is performed using the matching rules specified by
-RFC 3280 [@!RFC3280].  If more than one identity of a given type is
+RFC 5280 [@!RFC5280].  If more than one identity of a given type is
 present in the certificate (e.g., more than one dNSName name), a match
 in any one of the set is considered acceptable.  To support the use of
 certificate caches, as described in Section 7, endpoints SHOULD
@@ -515,7 +515,7 @@ possible to determine whether or not a subjectAltName presented in a
 remote certificate is expected for the remote party.  In particular,
 given call forwarding, third-party call control, or session
 descriptions generated by endpoints controlled by the Gateway Control
-Protocol [@RFC3525], it is not always possible in SIP to determine
+Protocol [@RFC5125], it is not always possible in SIP to determine
 what entity ought to have generated a remote SDP response.  In
 general, when not using authenticity and integrity protection of SDP
 descriptions, a certificate transmitted over SIP SHOULD assert the
@@ -547,14 +547,15 @@ protocol may be appropriate.
 
 This document improves security from the RFC 4572 [@RFC4572].  It
 updates the preferred hash function cipher suite from SHA-1 to
-SHA-256.  By clarifying the usage and handling of multiple
-fingerprints, the document also enables hash agility, and incremental
-deployment of newer, and more secure, cipher suites.
+SHA-256, and removes the reference to the MD2 cipher suite.  
+By clarifying the usage and handling of multiple fingerprints, the
+document also enables hash agility, and incremental deployment of
+newer, and more secure, cipher suites.
 
 #  IANA Considerations
 
 Note to IANA. No IANA considerations are changed from RFC4572
-[@RFC4572] so the only actions required are to update the registreis
+[@RFC4572] so the only actions required are to update the registries
 to point at this specification.
 
 This document defines an SDP proto value: 'TCP/TLS'.  Its format is
@@ -572,7 +573,7 @@ must define the rules by which their media format (fmt) namespace is
 managed.  For the TCP/TLS protocol, new formats SHOULD have an
 associated MIME registration.  Use of an existing MIME subtype for the
 format is encouraged.  If no MIME subtype exists, it is RECOMMENDED
-that a suitable one be registered through the IETF process [@!RFC4288]
+that a suitable one be registered through the IETF process [@!RFC6838]
 by production of, or reference to, a standards-track RFC that defines
 the transport protocol for the format.
 
@@ -599,7 +600,6 @@ information MUST be provided:
 
 Hash Function Name |   OID                      |  Reference
 -------------------|----------------------------|------------
-"md2"              |   1.2.840.113549.2.2       |  RFC 3279
 "md5"              |   1.2.840.113549.2.5       |  RFC 3279
 "sha-1"            |   1.3.14.3.2.26            |  RFC 3279
 "sha-224"          |   2.16.840.1.101.3.4.2.4   |  RFC 4055
