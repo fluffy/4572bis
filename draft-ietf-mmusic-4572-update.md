@@ -301,7 +301,7 @@ fingerprint-attribute  =  "fingerprint" ":" hash-func SP fingerprint
 
 hash-func              =  "sha-1" / "sha-224" / "sha-256" /
                           "sha-384" / "sha-512" /
-                          "md5" / token
+                          "md5" / "md2" / token
                           ; Additional hash functions can only come
                           ; from updates to RFC 3279
 
@@ -317,11 +317,15 @@ Following RFC 3279 [@!RFC3279] as updated by RFC 4055 [@!RFC4055],
 therefore, the defined hash functions are 'SHA-1' [@!FIPS.180-2.2002]
 [@RFC3174], 'SHA-224' [@!FIPS.180-2.2002], 'SHA-256'
 [@!FIPS.180-2.2002], 'SHA-384'[@!FIPS.180-2.2002], 'SHA-512'
-[@!FIPS.180-2.2002], 'MD5' [@RFC1321], with 'SHA-256' preferred.
-A new IANA registry of Hash Function Textual Names, specified in
-Section 8, allows for addition of future tokens, but they may only be
-added if they are included in RFCs that update or obsolete RFC 3279
-[@!RFC3279].
+[@!FIPS.180-2.2002], 'MD5' [@!RFC1321] and 'MD2' [@!RFC6149] and , with
+'SHA-256' preferred. A new IANA registry of Hash Function Textual
+Names, specified in Section 8, allows for addition of future tokens,
+but they may only be added if they are included in RFCs that update
+or obsolete RFC 3279 [@!RFC3279].
+
+For backward compatibility with implementations compliant with RFC 4572
+[@RFC4572], the MD2 and MD5 cipher suites are still listed in the syntax.
+However, implementations compliant to this specification MUST NOT use them.
 
 The fingerprint attribute may be either a session-level or a media-
 level SDP attribute.  If it is a session-level attribute, it applies
@@ -600,6 +604,7 @@ information MUST be provided:
 
 Hash Function Name |   OID                      |  Reference
 -------------------|----------------------------|------------
+"md2"              |   1.2.840.113549.2.2       |  RFC 3279
 "md5"              |   1.2.840.113549.2.5       |  RFC 3279
 "sha-1"            |   1.3.14.3.2.26            |  RFC 3279
 "sha-224"          |   2.16.840.1.101.3.4.2.4   |  RFC 4055
