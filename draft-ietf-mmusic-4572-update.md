@@ -317,7 +317,7 @@ Following RFC 3279 [@!RFC3279] as updated by RFC 4055 [@!RFC4055],
 therefore, the defined hash functions are 'SHA-1' [@!FIPS.180-2.2002]
 [@RFC3174], 'SHA-224' [@!FIPS.180-2.2002], 'SHA-256'
 [@!FIPS.180-2.2002], 'SHA-384'[@!FIPS.180-2.2002], 'SHA-512'
-[@!FIPS.180-2.2002], 'MD5' [@!RFC1321] and 'MD2' [@!RFC6149] and , with
+[@!FIPS.180-2.2002], 'MD5' [@!RFC1321] and 'MD2' [@!RFC6149], with
 'SHA-256' preferred. A new IANA registry of Hash Function Textual
 Names, specified in Section 8, allows for addition of future tokens,
 but they may only be added if they are included in RFCs that update
@@ -551,7 +551,7 @@ protocol may be appropriate.
 
 This document improves security from the RFC 4572 [@RFC4572].  It
 updates the preferred hash function cipher suite from SHA-1 to
-SHA-256, and removes the reference to the MD2 cipher suite.  
+SHA-256, and deprecates the usage of the MD2 and MD5 cipher suites.  
 By clarifying the usage and handling of multiple fingerprints, the
 document also enables hash agility, and incremental deployment of
 newer, and more secure, cipher suites.
