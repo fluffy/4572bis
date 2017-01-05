@@ -2,7 +2,7 @@
     title = "Connection-Oriented Media Transport over TLS in SDP"
     abbrev = "Comedia over TLS in SDP"
     category = "std"
-    docName = "draft-ietf-mmusic-4572-update-09"
+    docName = "draft-ietf-mmusic-4572-update-10"
     ipr = "trust200902"
     area = "ART"
     obsoletes = [ 4572 ]
@@ -317,7 +317,7 @@ Following RFC 3279 [@!RFC3279] as updated by RFC 4055 [@!RFC4055],
 therefore, the defined hash functions are 'SHA-1' [@!FIPS.180-2.2002]
 [@RFC3174], 'SHA-224' [@!FIPS.180-2.2002], 'SHA-256'
 [@!FIPS.180-2.2002], 'SHA-384'[@!FIPS.180-2.2002], 'SHA-512'
-[@!FIPS.180-2.2002], 'MD5' [@!RFC1321] and 'MD2' [@!RFC6149], with
+[@!FIPS.180-2.2002], 'MD5' [@RFC1321] and 'MD2' [@RFC6149], with
 'SHA-256' preferred. A new IANA registry of Hash Function Textual
 Names, specified in Section 8, allows for addition of future tokens,
 but they may only be added if they are included in RFCs that update
