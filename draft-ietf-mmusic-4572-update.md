@@ -329,12 +329,12 @@ but they may only be added if they are included in RFCs that update
 or obsolete RFC 3279 [@!RFC3279].
 
 Implementations compliant to this specification MUST NOT use the
-MD2 and MD5 hash functions to generate fingerprints, or to verify received
-fingerprints that have been generate using them.
+MD2 and MD5 hash functions to calculate fingerprints, or to verify received
+fingerprints that have been calculated using them.
 
 NOTE: The MD2 and MD5 hash functions are listed in this specification so
 that implementations can recognize them. Implementations that log unused
-hash functions might log occurrences of these algorithms differently to 
+hash functions might log occurrences of these algorithms differently to
 unknown hash algorithms.
 
 The fingerprint attribute may be either a session-level or a media-
