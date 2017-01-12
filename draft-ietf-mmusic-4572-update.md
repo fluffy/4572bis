@@ -2,7 +2,7 @@
     title = "Connection-Oriented Media Transport over TLS in SDP"
     abbrev = "Comedia over TLS in SDP"
     category = "std"
-    docName = "draft-ietf-mmusic-4572-update-10"
+    docName = "draft-ietf-mmusic-4572-update-11"
     ipr = "trust200902"
     area = "ART"
     obsoletes = [ 4572 ]
@@ -64,7 +64,7 @@ Connection-Oriented Media specification to allow session descriptions
 to describe media sessions that use the Transport Layer Security (TLS)
 protocol [@!RFC5246].
 
-TLS protocol allows applications to communicate over a channel t
+TLS protocol allows applications to communicate over a channel that
 provides confidentiality and data integrity.  The TLS specification,
 however, does not specify how specific protocols establish and use
 this secure channel; particularly, TLS leaves the question of how to
@@ -101,14 +101,16 @@ secure use of self-signed certificates.  Section 6 describes which
 X.509 certificates are presented, and how they are used in TLS.
 Section 7 discusses additional security considerations.
 
-This document obsoletes [@RFC4572] but remains backwards compatible
+## Changes From RFC 4572
+
+This document obsoletes RFC 4572 [@RFC4572] but remains backwards compatible
 with older implementations.  The changes from [@RFC4572] are that it
-clarified that multiple 'fingerprint' attributes can be used to carry
+clarifies that multiple 'fingerprint' attributes can be used to carry
 fingerprints, calculated using different hash functions, associated
 with a given certificate, and to carry fingerprints associated with
 multiple certificates.  The fingerprint matching procedure, when
 multiple fingerprints are provided, are also clarified.  The document
-also updates the preferred cipher suite with a stronger cipher suite,
+also updates the preferred hash function with a stronger cipher suite,
 and removes the requirement to use the same hash function for
 calculating a certificate fingerprint and certificate signature.
 
@@ -230,6 +232,9 @@ m=image 54111 TCP/TLS t38
 c=IN IP4 192.0.2.2
 a=setup:passive
 a=connection:new
+a=fingerprint:SHA-256 \
+   12:DF:3E:5D:49:6B:19:E5:7C:AB:4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF: \
+   3E:5D:49:6B:19:E5:7C:AB:4A:AD
 a=fingerprint:SHA-1 \
        4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF:3E:5D:49:6B:19:E5:7C:AB
 ```
@@ -323,9 +328,14 @@ Names, specified in Section 8, allows for addition of future tokens,
 but they may only be added if they are included in RFCs that update
 or obsolete RFC 3279 [@!RFC3279].
 
-For backward compatibility with implementations compliant with RFC 4572
-[@RFC4572], the MD2 and MD5 cipher suites are still listed in the syntax.
-However, implementations compliant to this specification MUST NOT use them.
+Implementations compliant to this specification MUST NOT use the
+MD2 and MD5 hash functions to calculate fingerprints, or to verify received
+fingerprints that have been calculated using them.
+
+NOTE: The MD2 and MD5 hash functions are listed in this specification so
+that implementations can recognize them. Implementations that log unused
+hash functions might log occurrences of these algorithms differently to
+unknown hash algorithms.
 
 The fingerprint attribute may be either a session-level or a media-
 level SDP attribute.  If it is a session-level attribute, it applies
@@ -358,15 +368,15 @@ If fingerprints associated with multiple certificates are calculated,
 the same set of hash functions MUST be used to calculate fingerprints
 for each certificate associated with the m- line.
 
-For each used certificate, an endpoint MUST be able to match at least
-one fingerprint, calculated using the hash function that the endpoint
-supports and considers most secure, with the used certificate. If the
-checked fingerprint does not match the used certificate, the endpoint
-MUST NOT establish the TLS connection. In addition, the endpoint MAY
-also check fingerprints calculated using other hash functions that it
-has received for a match. For each hash function checked, one of the
-received fingerprints calculated using the hash function MUST match
-the used certificate.
+An endpoint MUST select the set of fingerprints which use its most preferred
+hash function (out of those offered by the peer) and verify that each used
+certificate matches one fingerprint out of that set. If a certificate does
+not match any such fingerprint, the endpoint MUST NOT establish the TLS connection
+
+An endpoint MAY, in addition to its more preferred hash function, also
+verify that each used certificate matches fingerprints calculated using other
+hash functions. Unless there is a matching fingerprint for each tested hash function, the
+endpoint MUST NOT establish the TLS connection.
 
 NOTE: The SDP fingerprint attribute does not contain a reference to a
 specific certificate. Endpoints need to compare the fingerprint with a
@@ -434,9 +444,9 @@ connection with a bad_certificate error.
 
 If the SDP offer/answer model [@!RFC3264] is being used, the client
 (the endpoint with the 'setup:active' role) MUST also present a
-certificate following the rules of Section 6.1.  The server MUST
+certificate following the rules of Section 6.1. The server MUST
 request a certificate, and if the client does not provide one, or if
-the certificate does not match the provided fingerprint, the server
+the certificate does not match a provided fingerprint, the server
 endpoint MUST terminate the media connection with a bad_certificate
 error.
 
@@ -535,26 +545,20 @@ to `sip:alice@example.com`.  (This issue is not one specific to this
 specification; the same consideration applies for S/MIME-signed SDP
 carried over SIP.)
 
-This document does not define any mechanism for securely transporting
+This document does not define a mechanism for securely transporting
 RTP and RTP Control Protocol (RTCP) packets over a connection-oriented
-channel.  There was no consensus in the working group as to whether it
-would be better to send Secure RTP packets [@RFC3711] over a
-connection-oriented transport [@RFC4571], or whether it would be
-better to send standard unsecured RTP packets over TLS using the
-mechanisms described in this document.  The group consensus was to
-wait until a use-case requiring secure connection-oriented RTP was
-presented.
+channel. Please see RFC 7850 [@RFC4571] for more details.
 
 TLS is not always the most appropriate choice for secure connection-
 oriented media; in some cases, a higher- or lower-level security
 protocol may be appropriate.
 
 This document improves security from the RFC 4572 [@RFC4572].  It
-updates the preferred hash function cipher suite from SHA-1 to
-SHA-256, and deprecates the usage of the MD2 and MD5 cipher suites.  
+updates the preferred hash function from SHA-1 to
+SHA-256, and deprecates the usage of the MD2 and MD5 hash functions.  
 By clarifying the usage and handling of multiple fingerprints, the
 document also enables hash agility, and incremental deployment of
-newer, and more secure, cipher suites.
+newer, and more secure, hash functions.
 
 #  IANA Considerations
 
