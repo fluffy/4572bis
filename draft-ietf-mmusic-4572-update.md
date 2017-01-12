@@ -233,7 +233,8 @@ c=IN IP4 192.0.2.2
 a=setup:passive
 a=connection:new
 a=fingerprint:SHA-256 \
-   12:DF:3E:5D:49:6B:19:E5:7C:AB:4A:AD:B9:B1:3F:82:18:3B:54:02
+   12:DF:3E:5D:49:6B:19:E5:7C:AB:4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF: \
+   3E:5D:49:6B:19:E5:7C:AB:4A:AD
 a=fingerprint:SHA-1 \
        4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF:3E:5D:49:6B:19:E5:7C:AB
 ```
@@ -331,10 +332,10 @@ Implementations compliant to this specification MUST NOT use the
 MD2 and MD5 hash functions to generate fingerprints, or to verify received
 fingerprints that have been generate using them.
 
-NOTE: The MD2 and MD5 hash functions are still listed in this specification,
-so that implementations will recognize them (if provided by an implementation
-compliant with RFC 4572 [@RFC4572]) and can e.g., trigger a "bad crypto"
-(rather than e.g., "unknown crypto") log.
+NOTE: The MD2 and MD5 hash functions are listed in this specification so
+that implementations can recognize them. Implementations that log unused
+hash functions might log occurrences of these algorithms differently to 
+unknown hash algorithms.
 
 The fingerprint attribute may be either a session-level or a media-
 level SDP attribute.  If it is a session-level attribute, it applies
