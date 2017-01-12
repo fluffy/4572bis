@@ -110,7 +110,7 @@ fingerprints, calculated using different hash functions, associated
 with a given certificate, and to carry fingerprints associated with
 multiple certificates.  The fingerprint matching procedure, when
 multiple fingerprints are provided, are also clarified.  The document
-also updates the preferred cipher suite with a stronger cipher suite,
+also updates the preferred hash function with a stronger cipher suite,
 and removes the requirement to use the same hash function for
 calculating a certificate fingerprint and certificate signature.
 
@@ -554,7 +554,7 @@ oriented media; in some cases, a higher- or lower-level security
 protocol may be appropriate.
 
 This document improves security from the RFC 4572 [@RFC4572].  It
-updates the preferred hash function cipher suite from SHA-1 to
+updates the preferred hash function from SHA-1 to
 SHA-256, and deprecates the usage of the MD2 and MD5 hash functions.  
 By clarifying the usage and handling of multiple fingerprints, the
 document also enables hash agility, and incremental deployment of
