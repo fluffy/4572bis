@@ -105,7 +105,7 @@ Section 7 discusses additional security considerations.
 
 This document obsoletes RFC 4572 [@RFC4572] but remains backwards compatible
 with older implementations.  The changes from [@RFC4572] are that it
-clarified that multiple 'fingerprint' attributes can be used to carry
+clarifies that multiple 'fingerprint' attributes can be used to carry
 fingerprints, calculated using different hash functions, associated
 with a given certificate, and to carry fingerprints associated with
 multiple certificates.  The fingerprint matching procedure, when
@@ -367,17 +367,15 @@ If fingerprints associated with multiple certificates are calculated,
 the same set of hash functions MUST be used to calculate fingerprints
 for each certificate associated with the m- line.
 
-For each used certificate, an endpoint MUST NOT establish the connection
-unless it is able to match at least one fingerprint, calculated using the
-hash function that the endpoint supports and considers most secure, with
-the certificate. If the checked fingerprint does not match the certificate,
-the endpoint MUST NOT establish the TLS connection.
+An endpoint MUST select the set of fingerprints which use its most preferred
+hash function (out of those offered by the peer) and verify that each used
+certificate matches one fingerprint out of that set. If a certificate does
+not match any such fingerprint, the endpoint MUST NOT establish the TLS connection
 
-If the checked fingerprint above matches the used certificate, the endpoint
-MAY choose to check additional fingerprints for the same certificate.
-For each hash function checked, one of the received fingerprints calculated
-using the hash function MUST match the certificate. If a check fails, the endpoint
-MUST NOT establish the TLS connection.
+An endpoint MAY, in addition to its more preferred hash function, also
+verify that each used certificate matches fingerprints calculated using other
+hash functions. Unless there is a matching fingerprint for each tested hash function, the
+endpoint MUST NOT establish the TLS connection.
 
 NOTE: The SDP fingerprint attribute does not contain a reference to a
 specific certificate. Endpoints need to compare the fingerprint with a
@@ -546,7 +544,7 @@ to `sip:alice@example.com`.  (This issue is not one specific to this
 specification; the same consideration applies for S/MIME-signed SDP
 carried over SIP.)
 
-This document does not define any mechanism for securely transporting
+This document does not define a mechanism for securely transporting
 RTP and RTP Control Protocol (RTCP) packets over a connection-oriented
 channel. Please see RFC 7850 [@RFC4571] for more details.
 
