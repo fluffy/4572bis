@@ -34,8 +34,8 @@
 
 This document specifies how to establish secure connection-oriented
 media transport sessions over the Transport Layer Security (TLS)
-protocol using the Session Description Protocol (SDP).  It defines a
-new SDP protocol identifier, 'TCP/TLS'.  It also defines the syntax
+protocol using the Session Description Protocol (SDP).  It defines
+the SDP protocol identifier, 'TCP/TLS'.  It also defines the syntax
 and semantics for an SDP 'fingerprint' attribute that identifies the
 certificate that will be presented for the TLS session.  This
 mechanism allows media transport over TLS connections to be
@@ -64,7 +64,7 @@ Connection-Oriented Media specification to allow session descriptions
 to describe media sessions that use the Transport Layer Security (TLS)
 protocol [@!RFC5246].
 
-TLS protocol allows applications to communicate over a channel that
+The TLS protocol allows applications to communicate over a channel that
 provides confidentiality and data integrity.  The TLS specification,
 however, does not specify how specific protocols establish and use
 this secure channel; particularly, TLS leaves the question of how to
@@ -247,7 +247,7 @@ protocol to be used for the media in the session.  See the "Media
 Descriptions" section of SDP [@!RFC4566] for a discussion on transport
 protocol identifiers.
 
-This specification defines a new protocol identifier, 'TCP/TLS', which
+This specification defines the protocol identifier, 'TCP/TLS', which
 indicates that the media described will use the Transport Layer
 Security protocol [@!RFC5246] over TCP.  (Using TLS over other
 transport protocols is not discussed in this document.)  The 'TCP/TLS'
@@ -344,12 +344,12 @@ defined.
 
 ## Multiple Fingerprints
 
-Multiple SDP fingerprint attributes can be associated with an m-
+Multiple SDP fingerprint attributes can be associated with an 'm'
 line. This can occur if multiple fingerprints have been calculated for
 a certificate using different hash functions. It can also occur if one
 or more fingerprints associated with multiple certificates have been
 calculated. This might be needed if multiple certificates will be used
-for media associated with an m- line (e.g. if separate certificates
+for media associated with an 'm' line (e.g., if separate certificates
 are used for RTP and RTCP), or where it is not known which certificate
 will be used when the fingerprints are exchanged. In such cases, one
 or more fingerprints MUST be calculated for each possible certificate.
@@ -366,15 +366,15 @@ algorithm, or if local policy mandates use of stronger algorithms.
 
 If fingerprints associated with multiple certificates are calculated,
 the same set of hash functions MUST be used to calculate fingerprints
-for each certificate associated with the m- line.
+for each certificate associated with the 'm' line.
 
 An endpoint MUST select the set of fingerprints which use its most preferred
-hash function (out of those offered by the peer) and verify that each used
-certificate matches one fingerprint out of that set. If a certificate does
+hash function (out of those offered by the peer) and verify that each
+certificate used matches one fingerprint out of that set. If a certificate does
 not match any such fingerprint, the endpoint MUST NOT establish the TLS connection
 
 An endpoint MAY, in addition to its more preferred hash function, also
-verify that each used certificate matches fingerprints calculated using other
+verify that each certificate used matches fingerprints calculated using other
 hash functions. Unless there is a matching fingerprint for each tested hash function, the
 endpoint MUST NOT establish the TLS connection.
 
@@ -585,11 +585,12 @@ that a suitable one be registered through the IETF process [@!RFC6838]
 by production of, or reference to, a standards-track RFC that defines
 the transport protocol for the format.
 
-This specification creates a new IANA registry named "Hash Function
-Textual Names".  It will not be part of the SDP Parameters.
+This specification takes over the IANA registry named "Hash Function
+Textual Names", that was created in [@RFC4572]. It will not be part of
+the SDP Parameters.
 
 The names of hash functions used for certificate fingerprints are
-registered by the IANA.  Hash functions MUST be defined by
+registered by the IANA. Hash functions MUST be defined by
 standards-track RFCs that update or obsolete RFC 3279 [@!RFC3279].
 
 When registering a new hash function textual name, the following
@@ -623,4 +624,5 @@ Table: IANA Hash Function Textual Name Registry {#hash-names}
 # Acknowledgments
 
 This version of the document included significant contributions by Cullen
-Jennings, Paul Kyzivat, Roman Shpount, and Martin Thomson.
+Jennings, Paul Kyzivat, Roman Shpount, and Martin Thomson. Elwyn Davies
+performed the Gen-ART review of the document.
