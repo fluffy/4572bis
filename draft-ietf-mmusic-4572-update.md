@@ -370,8 +370,9 @@ for each certificate associated with the 'm' line.
 
 An endpoint MUST select the set of fingerprints which use its most preferred
 hash function (out of those offered by the peer) and verify that each
-certificate used matches one fingerprint out of that set. If a certificate does
-not match any such fingerprint, the endpoint MUST NOT establish the TLS connection
+certificate used matches one fingerprint out of that set. If a certificate
+does not match any such fingerprint, the endpoint MUST NOT establish the
+TLS connection.
 
 NOTE: The SDP fingerprint attribute does not contain a reference to a
 specific certificate. Endpoints need to compare the fingerprint with a
