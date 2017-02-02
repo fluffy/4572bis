@@ -2,7 +2,7 @@
     title = "Connection-Oriented Media Transport over TLS in SDP"
     abbrev = "Comedia over TLS in SDP"
     category = "std"
-    docName = "draft-ietf-mmusic-4572-update-12"
+    docName = "draft-ietf-mmusic-4572-update-13"
     ipr = "trust200902"
     area = "ART"
     obsoletes = [ 4572 ]
@@ -236,7 +236,7 @@ a=fingerprint:SHA-256 \
    12:DF:3E:5D:49:6B:19:E5:7C:AB:4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF: \
    3E:5D:49:6B:19:E5:7C:AB:4A:AD
 a=fingerprint:SHA-1 \
-       4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF:3E:5D:49:6B:19:E5:7C:AB
+   4A:AD:B9:B1:3F:82:18:3B:54:02:12:DF:3E:5D:49:6B:19:E5:7C:AB
 ```
 Figure 1: Example SDP Description Offering a TLS Media Stream
 
@@ -372,11 +372,6 @@ An endpoint MUST select the set of fingerprints which use its most preferred
 hash function (out of those offered by the peer) and verify that each
 certificate used matches one fingerprint out of that set. If a certificate does
 not match any such fingerprint, the endpoint MUST NOT establish the TLS connection
-
-An endpoint MAY, in addition to its more preferred hash function, also
-verify that each certificate used matches fingerprints calculated using other
-hash functions. Unless there is a matching fingerprint for each tested hash function, the
-endpoint MUST NOT establish the TLS connection.
 
 NOTE: The SDP fingerprint attribute does not contain a reference to a
 specific certificate. Endpoints need to compare the fingerprint with a
